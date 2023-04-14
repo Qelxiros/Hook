@@ -3,13 +3,13 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Devcade;
 
-// MAKE SURE YOU RENAME ALL PROJECT FILES FROM DevcadeGame TO YOUR YOUR GAME NAME
 namespace GameJamSubmission
 {
 	public class Game1 : Game
 	{
 		private GraphicsDeviceManager _graphics;
 		private SpriteBatch _spriteBatch;
+		private IGameMode _activeState;
 		
 		/// <summary>
 		/// Stores the window dimensions in a rectangle object for easy use
@@ -24,6 +24,7 @@ namespace GameJamSubmission
 			_graphics = new GraphicsDeviceManager(this);
 			Content.RootDirectory = "Content";
 			IsMouseVisible = false;
+			_activeState = new Gameplay();
 		}
 
 		/// <summary>
@@ -48,8 +49,9 @@ namespace GameJamSubmission
 			#endregion
 			
 			// TODO: Add your initialization logic here
-
 			windowSize = GraphicsDevice.Viewport.Bounds;
+			
+			_activeState.Initialize(this, windowSize);
 			
 			base.Initialize();
 		}
@@ -64,6 +66,7 @@ namespace GameJamSubmission
 			// TODO: use this.Content to load your game content here
 			// ex:
 			// texture = Content.Load<Texture2D>("fileNameWithoutExtension");
+			_activeState.LoadContent(this, Content);
 		}
 
 		/// <summary>
@@ -85,6 +88,7 @@ namespace GameJamSubmission
 			}
 
 			// TODO: Add your update logic here
+			_activeState.Update();
 
 			base.Update(gameTime);
 		}
@@ -95,12 +99,12 @@ namespace GameJamSubmission
 		/// <param name="gameTime">This is the gameTime object you can use to get the time since last frame.</param>
 		protected override void Draw(GameTime gameTime)
 		{
-			GraphicsDevice.Clear(Color.CornflowerBlue);
+			GraphicsDevice.Clear(Color.Black);
 			
 			// Batches all the draw calls for this frame, and then performs them all at once
 			_spriteBatch.Begin();
 			// TODO: Add your drawing code here
-			
+			_activeState.Draw(_spriteBatch, _graphics);
 			_spriteBatch.End();
 
 			base.Draw(gameTime);
