@@ -32,7 +32,7 @@ public class Player : IEntity {
     public void LoadContent(Game game, ContentManager content) {
         Color[] data = new Color[_area.Width * _area.Height];
         for (int i = 0; i < _area.Width * _area.Height; i++) {
-            data[i] = Color.Lime;
+            data[i] = Color.Yellow;
         }
 
         _texture = new Texture2D(game.GraphicsDevice, _area.Width, _area.Height);
